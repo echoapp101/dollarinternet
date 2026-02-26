@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DollarInternet — Own the Homepage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,900;1,400;1,900&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-black text-white font-sans selection:bg-white selection:text-black overflow-x-hidden">
+    <div id="root">
+      <!-- Header / Stats -->
+      <header class="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-8">
+            <h1 class="text-xl font-bold tracking-tighter uppercase">DollarInternet</h1>
+            <div class="hidden md:flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] text-white/50 font-mono">
+              <div>Slots: <span id="stat-slots" class="text-white">0 / 10,000</span></div>
+              <div>Price: <span id="stat-price" class="text-white">$0</span></div>
+              <div>Next Jump: <span id="stat-next" class="text-white">0 slots</span></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div id="countdown-container" class="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
+              <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+              <span id="countdown-timer" class="font-mono text-sm">00:00</span>
+            </div>
+            <button id="btn-buy" class="bg-white text-black px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-emerald-400 transition-colors cursor-pointer">
+              Own a Minute
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Billboard Section -->
+      <main id="billboard" class="min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-1000">
+        <div class="max-w-5xl w-full text-center space-y-8">
+          <div id="active-message" class="text-4xl md:text-7xl lg:text-8xl font-black leading-tight break-words">
+            Loading...
+          </div>
+          <div id="active-meta" class="text-xs md:text-sm uppercase tracking-[0.3em] text-white/40 font-mono">
+            <!-- Currently owned by Slot #___ — Paid $___ -->
+          </div>
+        </div>
+      </main>
+
+      <!-- Founders Section -->
+      <section class="border-t border-white/10 bg-zinc-950 py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+          <h2 class="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-12 font-mono text-center">Founders (First 100 Slots)</h2>
+          <div id="founders-grid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4">
+            <!-- Founders will be injected here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-12 px-6 text-center border-t border-white/5 text-[10px] uppercase tracking-[0.2em] text-white/20 font-mono">
+        &copy; 2026 DollarInternet — A Public Time Archive
+      </footer>
+
+      <!-- Modal: Buy Slot -->
+      <div id="modal-buy" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-xl"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-6">
+          <div class="bg-zinc-900 border border-white/10 w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl">
+            <div class="p-8 space-y-8">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="text-2xl font-bold tracking-tight">Own the Homepage</h3>
+                  <p class="text-white/50 text-sm mt-1">Your message will rotate for 60 seconds.</p>
+                </div>
+                <button id="btn-close-modal" class="text-white/30 hover:text-white transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+              </div>
+
+              <form id="form-buy" class="space-y-6">
+                <div class="space-y-2">
+                  <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Message (Max 120 chars)</label>
+                  <textarea id="input-message" maxlength="120" required class="w-full bg-black border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-white/40 transition-colors resize-none h-32" placeholder="What do you want to say to the internet?"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Background</label>
+                    <div id="color-picker" class="grid grid-cols-5 gap-2">
+                      <!-- Colors injected here -->
+                    </div>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="space-y-2">
+                      <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Font Style</label>
+                      <select id="select-font" class="w-full bg-black border border-white/10 rounded-lg p-2 text-sm focus:outline-none">
+                        <option value="font-sans">Modern Sans</option>
+                        <option value="font-serif">Classic Serif</option>
+                        <option value="font-mono">Technical Mono</option>
+                      </select>
+                    </div>
+                    <div class="space-y-2">
+                      <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Alignment</label>
+                      <div class="flex gap-2">
+                        <button type="button" data-align="text-left" class="btn-align flex-1 bg-black border border-white/10 rounded-lg p-2 hover:bg-white/5 transition-colors">Left</button>
+                        <button type="button" data-align="text-center" class="btn-align flex-1 bg-white text-black border border-white/10 rounded-lg p-2 transition-colors">Center</button>
+                        <button type="button" data-align="text-right" class="btn-align flex-1 bg-black border border-white/10 rounded-lg p-2 hover:bg-white/5 transition-colors">Right</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                  <div class="text-sm">
+                    <span class="text-white/40">Total:</span>
+                    <span id="modal-price" class="text-xl font-bold ml-2">$1.00</span>
+                  </div>
+                  <button type="submit" id="btn-submit" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-emerald-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    Purchase Slot
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notification -->
+      <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 bg-white text-black rounded-full font-bold text-sm shadow-2xl transform translate-y-24 opacity-0 transition-all duration-500 pointer-events-none">
+        Message sent to the billboard.
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

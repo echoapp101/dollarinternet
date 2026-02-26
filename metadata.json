@@ -1,0 +1,5 @@
+{
+  "name": "DollarInternet",
+  "description": "A rotating digital billboard where users can own the homepage for exactly 1 minute.",
+  "requestFramePermissions": []
+}
