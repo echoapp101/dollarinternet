@@ -12,18 +12,27 @@
     <div id="root">
       <!-- Header / Stats -->
       <header class="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-black/80 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-8">
-            <h1 class="text-xl font-bold tracking-tighter uppercase cursor-pointer" id="nav-home">DollarInternet</h1>
-            <nav class="hidden md:flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] font-mono">
-              <button id="btn-about" class="text-white/50 hover:text-white transition-colors cursor-pointer">About</button>
-              <div class="w-px h-3 bg-white/10"></div>
-              <div>Slots: <span id="stat-slots" class="text-white">0 / 10,000</span></div>
-              <div>Price: <span id="stat-price" class="text-white">$0</span></div>
-              <div>Next Jump: <span id="stat-next" class="text-white">0 slots</span></div>
-            </nav>
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
+          <div class="flex items-center justify-between md:justify-start gap-8">
+            <h1 class="text-lg md:text-xl font-bold tracking-tighter uppercase cursor-pointer" id="nav-home">DollarInternet</h1>
+            <div class="flex items-center gap-3 md:hidden">
+              <div id="countdown-container-mobile" class="flex items-center gap-2 px-2 py-1 bg-white/5 rounded-full border border-white/10">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span id="countdown-timer-mobile" class="font-mono text-[10px]">00:00</span>
+              </div>
+              <button id="btn-about-mobile" class="text-[10px] uppercase tracking-widest text-white/50 font-mono">About</button>
+            </div>
           </div>
-          <div class="flex items-center gap-4">
+          
+          <nav class="flex items-center justify-between md:justify-center gap-4 md:gap-6 text-[9px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] text-white/50 font-mono border-t border-white/5 pt-2 md:pt-0 md:border-t-0">
+            <button id="btn-about" class="hidden md:block hover:text-white transition-colors cursor-pointer">About</button>
+            <div class="hidden md:block w-px h-3 bg-white/10"></div>
+            <div>Slots: <span id="stat-slots" class="text-white">0 / 10,000</span></div>
+            <div>Price: <span id="stat-price" class="text-white">$0</span></div>
+            <div>Next: <span id="stat-next" class="text-white">0</span></div>
+          </nav>
+
+          <div class="hidden md:flex items-center gap-4">
             <div id="countdown-container" class="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
               <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
               <span id="countdown-timer" class="font-mono text-sm">00:00</span>
@@ -32,6 +41,10 @@
               Own a Minute
             </button>
           </div>
+          
+          <button id="btn-buy-mobile" class="md:hidden w-full bg-white text-black py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-400 transition-colors">
+            Own a Minute
+          </button>
         </div>
       </header>
 
@@ -95,12 +108,11 @@
         &copy; 2026 DollarInternet — A Public Time Archive
       </footer>
 
-      <!-- Modal: Buy Slot -->
       <div id="modal-buy" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-xl"></div>
-        <div class="absolute inset-0 flex items-center justify-center p-6">
-          <div class="bg-zinc-900 border border-white/10 w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl">
-            <div class="p-8 space-y-8">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-2xl"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 md:p-6">
+          <div class="bg-zinc-900 border border-white/10 w-full max-w-xl rounded-2xl overflow-y-auto max-h-[90vh] shadow-2xl">
+            <div class="p-6 md:p-8 space-y-6 md:space-y-8">
               <div class="flex justify-between items-start">
                 <div>
                   <h3 class="text-2xl font-bold tracking-tight">Own the Homepage</h3>
@@ -117,7 +129,7 @@
                   <textarea id="input-message" maxlength="120" required class="w-full bg-black border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-white/40 transition-colors resize-none h-32" placeholder="What do you want to say to the internet?"></textarea>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div class="space-y-2">
                     <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Background</label>
                     <div id="color-picker" class="grid grid-cols-5 gap-2">
@@ -127,7 +139,7 @@
                   <div class="space-y-4">
                     <div class="space-y-2">
                       <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Font Style</label>
-                      <select id="select-font" class="w-full bg-black border border-white/10 rounded-lg p-2 text-sm focus:outline-none">
+                      <select id="select-font" class="w-full bg-black border border-white/10 rounded-lg p-2 text-xs md:text-sm focus:outline-none">
                         <option value="font-sans">Modern Sans</option>
                         <option value="font-serif">Classic Serif</option>
                         <option value="font-mono">Technical Mono</option>
@@ -135,10 +147,10 @@
                     </div>
                     <div class="space-y-2">
                       <label class="text-[10px] uppercase tracking-widest text-white/40 font-mono">Alignment</label>
-                      <div class="flex gap-2">
-                        <button type="button" data-align="text-left" class="btn-align flex-1 bg-black border border-white/10 rounded-lg p-2 hover:bg-white/5 transition-colors">Left</button>
-                        <button type="button" data-align="text-center" class="btn-align flex-1 bg-white text-black border border-white/10 rounded-lg p-2 transition-colors">Center</button>
-                        <button type="button" data-align="text-right" class="btn-align flex-1 bg-black border border-white/10 rounded-lg p-2 hover:bg-white/5 transition-colors">Right</button>
+                      <div class="flex gap-1 md:gap-2">
+                        <button type="button" data-align="text-left" class="btn-align flex-1 bg-black border border-white/10 rounded-lg py-2 text-[10px] md:text-xs hover:bg-white/5 transition-colors">Left</button>
+                        <button type="button" data-align="text-center" class="btn-align flex-1 bg-white text-black border border-white/10 rounded-lg py-2 text-[10px] md:text-xs transition-colors">Center</button>
+                        <button type="button" data-align="text-right" class="btn-align flex-1 bg-black border border-white/10 rounded-lg py-2 text-[10px] md:text-xs hover:bg-white/5 transition-colors">Right</button>
                       </div>
                     </div>
                   </div>

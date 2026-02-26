@@ -45,10 +45,12 @@ const elements = {
   statPrice: document.getElementById("stat-price")!,
   statNext: document.getElementById("stat-next")!,
   countdownTimer: document.getElementById("countdown-timer")!,
+  countdownTimerMobile: document.getElementById("countdown-timer-mobile")!,
   billboard: document.getElementById("billboard")!,
   activeMessage: document.getElementById("active-message")!,
   activeMeta: document.getElementById("active-meta")!,
   btnBuy: document.getElementById("btn-buy")!,
+  btnBuyMobile: document.getElementById("btn-buy-mobile")!,
   modalBuy: document.getElementById("modal-buy")!,
   btnCloseModal: document.getElementById("btn-close-modal")!,
   formBuy: document.getElementById("form-buy") as HTMLFormElement,
@@ -59,6 +61,7 @@ const elements = {
   btnSubmit: document.getElementById("btn-submit") as HTMLButtonElement,
   navHome: document.getElementById("nav-home")!,
   btnAbout: document.getElementById("btn-about")!,
+  btnAboutMobile: document.getElementById("btn-about-mobile")!,
   btnBackHome: document.getElementById("btn-back-home")!,
   sectionAbout: document.getElementById("section-about")!,
 };
@@ -71,7 +74,7 @@ const updateDisplay = () => {
     elements.activeMessage.textContent = "SOLD OUT";
     elements.activeMeta.textContent = "10,000 Minutes Claimed. This page is now permanent.";
     elements.billboard.style.backgroundColor = "#000000";
-    elements.activeMessage.className = "text-4xl md:text-7xl lg:text-8xl font-black leading-tight break-words font-sans text-center text-white";
+    elements.activeMessage.className = "text-3xl md:text-7xl lg:text-8xl font-black leading-tight break-words font-sans text-center text-white";
     elements.btnBuy.classList.add("hidden");
     elements.modalBuy.classList.add("hidden");
     elements.countdownTimer.parentElement?.classList.add("hidden");
@@ -82,7 +85,7 @@ const updateDisplay = () => {
     elements.activeMessage.textContent = "This minute could be yours.";
     elements.activeMeta.textContent = "Become the first slot holder";
     elements.billboard.style.backgroundColor = "#000000";
-    elements.activeMessage.className = "text-4xl md:text-7xl lg:text-8xl font-black leading-tight break-words font-sans text-center text-white";
+    elements.activeMessage.className = "text-3xl md:text-7xl lg:text-8xl font-black leading-tight break-words font-sans text-center text-white";
     return;
   }
 
@@ -97,12 +100,16 @@ const updateDisplay = () => {
     const textColor = getTextColor(activeSlot.backgroundColor);
     elements.activeMessage.textContent = activeSlot.message;
     elements.activeMeta.textContent = `Currently owned by Slot #${activeSlot.slotNumber} — Paid $${activeSlot.pricePaid}`;
-    elements.activeMeta.className = `text-xs md:sm uppercase tracking-[0.3em] font-mono ${textColor === 'text-white' ? 'text-white/40' : 'text-black/40'}`;
+    elements.activeMeta.className = `text-[10px] md:text-sm uppercase tracking-[0.3em] font-mono ${textColor === 'text-white' ? 'text-white/40' : 'text-black/40'}`;
     elements.billboard.style.backgroundColor = activeSlot.backgroundColor;
-    elements.activeMessage.className = `text-4xl md:text-7xl lg:text-8xl font-black leading-tight break-words ${activeSlot.fontStyle} ${activeSlot.alignment} ${textColor}`;
+    elements.activeMessage.className = `text-3xl md:text-7xl lg:text-8xl font-black leading-tight break-words ${activeSlot.fontStyle} ${activeSlot.alignment} ${textColor}`;
     
     const secondsRemaining = 60 - (elapsedSeconds % 60);
-    elements.countdownTimer.textContent = formatTime(secondsRemaining);
+    const timeStr = formatTime(secondsRemaining);
+    elements.countdownTimer.textContent = timeStr;
+    if (elements.countdownTimerMobile) {
+      elements.countdownTimerMobile.textContent = timeStr;
+    }
   } else {
     elements.activeMessage.textContent = "Loading next slot...";
   }
@@ -115,7 +122,8 @@ onSnapshot(doc(db, "global", "stats"), (docSnap) => {
     elements.statSlots.textContent = `${globalStats.slotsSold} / 10,000`;
     const price = getPrice(globalStats.slotsSold);
     elements.statPrice.textContent = `$${price}`;
-    elements.statNext.textContent = `Price increases in ${getSlotsUntilNextJump(globalStats.slotsSold)} slots`;
+    const nextJump = getSlotsUntilNextJump(globalStats.slotsSold);
+    elements.statNext.textContent = `${nextJump}`;
     elements.modalPrice.textContent = `$${price}.00`;
     updateDisplay();
   }
@@ -127,11 +135,6 @@ onSnapshot(query(collection(db, "slots"), orderBy("slotNumber", "asc")), (snapsh
 });
 
 // --- EVENT HANDLERS ---
-elements.btnBuy.onclick = () => {
-  if (globalStats.slotsSold >= MAX_SLOTS) return;
-  elements.modalBuy.classList.remove("hidden");
-};
-
 elements.btnCloseModal.onclick = () => {
   elements.modalBuy.classList.add("hidden");
 };
@@ -150,10 +153,21 @@ const showHome = () => {
 };
 
 elements.btnAbout.onclick = showAbout;
+if (elements.btnAboutMobile) elements.btnAboutMobile.onclick = showAbout;
 elements.navHome.onclick = showHome;
 elements.btnBackHome.onclick = showHome;
 
-// Color Picker Init
+elements.btnBuy.onclick = () => {
+  if (globalStats.slotsSold >= MAX_SLOTS) return;
+  elements.modalBuy.classList.remove("hidden");
+};
+
+if (elements.btnBuyMobile) {
+  elements.btnBuyMobile.onclick = () => {
+    if (globalStats.slotsSold >= MAX_SLOTS) return;
+    elements.modalBuy.classList.remove("hidden");
+  };
+}
 PREDEFINED_COLORS.forEach(color => {
   const btn = document.createElement("button");
   btn.type = "button";
