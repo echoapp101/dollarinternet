@@ -1,3 +1,20 @@
+const params = new URLSearchParams(window.location.search);
+const sessionId = params.get("session_id");
+
+if (sessionId) {
+  fetch("/.netlify/functions/confirm-payment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sessionId })
+  })
+  .then(res => res.json())
+  .then(() => {
+    window.history.replaceState({}, document.title, "/");
+    window.location.reload();
+  })
+  .catch(err => console.error("Confirmation failed:", err));
+}
+
 import { 
   onSnapshot, 
   doc, 

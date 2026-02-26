@@ -25,7 +25,8 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { session_id } = JSON.parse(event.body || "{}");
+    const body = JSON.parse(event.body || "{}");
+    const session_id = body.session_id || body.sessionId;
 
     if (!session_id) {
       return { statusCode: 400, body: JSON.stringify({ success: false, error: "Missing session_id" }) };

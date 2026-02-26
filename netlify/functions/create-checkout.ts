@@ -48,12 +48,12 @@ export const handler: Handler = async (event) => {
     }
 
     // 3. Calculate price server-side
-    // price = Math.floor(slotsSold / 100) + 1
     const price = Math.floor(slotsSold / 100) + 1;
     const unitAmount = price * 100; // In cents
 
     // 4. Create Stripe Checkout session
-    const origin = event.headers.origin || event.headers.referer || "";
+    // Use process.env.URL as requested by user
+    const siteUrl = process.env.URL || event.headers.origin || event.headers.referer || "";
     
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -77,8 +77,8 @@ export const handler: Handler = async (event) => {
         fontStyle,
         alignment,
       },
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/`,
+      success_url: `${siteUrl}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}`,
     });
 
     return {
