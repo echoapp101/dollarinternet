@@ -74,7 +74,7 @@ const updateDisplay = () => {
     elements.activeMessage.textContent = "SOLD OUT";
     elements.activeMeta.textContent = "10,000 Minutes Claimed. This page is now permanent.";
     elements.billboard.style.backgroundColor = "#000000";
-    elements.activeMessage.className = "text-3xl md:text-7xl lg:text-8xl font-black leading-tight break-words font-sans text-center text-white";
+    elements.activeMessage.className = "text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed break-words font-sans text-center text-white";
     elements.btnBuy.classList.add("hidden");
     elements.modalBuy.classList.add("hidden");
     elements.countdownTimer.parentElement?.classList.add("hidden");
@@ -85,7 +85,7 @@ const updateDisplay = () => {
     elements.activeMessage.textContent = "This minute could be yours.";
     elements.activeMeta.textContent = "Become the first slot holder";
     elements.billboard.style.backgroundColor = "#000000";
-    elements.activeMessage.className = "text-3xl md:text-7xl lg:text-8xl font-black leading-tight break-words font-sans text-center text-white";
+    elements.activeMessage.className = "text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed break-words font-sans text-center text-white";
     return;
   }
 
@@ -102,7 +102,7 @@ const updateDisplay = () => {
     elements.activeMeta.textContent = `Currently owned by Slot #${activeSlot.slotNumber} — Paid $${activeSlot.pricePaid}`;
     elements.activeMeta.className = `text-[10px] md:text-sm uppercase tracking-[0.3em] font-mono ${textColor === 'text-white' ? 'text-white/40' : 'text-black/40'}`;
     elements.billboard.style.backgroundColor = activeSlot.backgroundColor;
-    elements.activeMessage.className = `text-3xl md:text-7xl lg:text-8xl font-black leading-tight break-words ${activeSlot.fontStyle} ${activeSlot.alignment} ${textColor}`;
+    elements.activeMessage.className = `text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed break-words ${activeSlot.fontStyle} ${activeSlot.alignment} ${textColor}`;
     
     const secondsRemaining = 60 - (elapsedSeconds % 60);
     const timeStr = formatTime(secondsRemaining);
