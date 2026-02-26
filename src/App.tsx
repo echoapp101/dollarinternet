@@ -48,7 +48,6 @@ const elements = {
   billboard: document.getElementById("billboard")!,
   activeMessage: document.getElementById("active-message")!,
   activeMeta: document.getElementById("active-meta")!,
-  foundersGrid: document.getElementById("founders-grid")!,
   btnBuy: document.getElementById("btn-buy")!,
   modalBuy: document.getElementById("modal-buy")!,
   btnCloseModal: document.getElementById("btn-close-modal")!,
@@ -58,6 +57,10 @@ const elements = {
   colorPicker: document.getElementById("color-picker")!,
   modalPrice: document.getElementById("modal-price")!,
   btnSubmit: document.getElementById("btn-submit") as HTMLButtonElement,
+  navHome: document.getElementById("nav-home")!,
+  btnAbout: document.getElementById("btn-about")!,
+  btnBackHome: document.getElementById("btn-back-home")!,
+  sectionAbout: document.getElementById("section-about")!,
 };
 
 // --- CORE LOGIC ---
@@ -121,14 +124,6 @@ onSnapshot(doc(db, "global", "stats"), (docSnap) => {
 onSnapshot(query(collection(db, "slots"), orderBy("slotNumber", "asc")), (snapshot) => {
   allSlots = snapshot.docs.map(d => d.data());
   updateDisplay();
-  
-  const founders = allSlots.filter(s => s.slotNumber <= 100);
-  elements.foundersGrid.innerHTML = founders.map(s => `
-    <div class="founder-card text-center space-y-2">
-      <div class="text-[10px] font-mono text-white/40">#${s.slotNumber}</div>
-      <div class="text-xs font-bold truncate">${s.message}</div>
-    </div>
-  `).join('');
 });
 
 // --- EVENT HANDLERS ---
@@ -140,6 +135,23 @@ elements.btnBuy.onclick = () => {
 elements.btnCloseModal.onclick = () => {
   elements.modalBuy.classList.add("hidden");
 };
+
+// --- NAVIGATION ---
+const showAbout = () => {
+  elements.billboard.classList.add("hidden");
+  elements.sectionAbout.classList.remove("hidden");
+  window.scrollTo(0, 0);
+};
+
+const showHome = () => {
+  elements.billboard.classList.remove("hidden");
+  elements.sectionAbout.classList.add("hidden");
+  window.scrollTo(0, 0);
+};
+
+elements.btnAbout.onclick = showAbout;
+elements.navHome.onclick = showHome;
+elements.btnBackHome.onclick = showHome;
 
 // Color Picker Init
 PREDEFINED_COLORS.forEach(color => {

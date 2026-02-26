@@ -14,12 +14,14 @@
       <header class="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-black/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-8">
-            <h1 class="text-xl font-bold tracking-tighter uppercase">DollarInternet</h1>
-            <div class="hidden md:flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] text-white/50 font-mono">
+            <h1 class="text-xl font-bold tracking-tighter uppercase cursor-pointer" id="nav-home">DollarInternet</h1>
+            <nav class="hidden md:flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] font-mono">
+              <button id="btn-about" class="text-white/50 hover:text-white transition-colors cursor-pointer">About</button>
+              <div class="w-px h-3 bg-white/10"></div>
               <div>Slots: <span id="stat-slots" class="text-white">0 / 10,000</span></div>
               <div>Price: <span id="stat-price" class="text-white">$0</span></div>
               <div>Next Jump: <span id="stat-next" class="text-white">0 slots</span></div>
-            </div>
+            </nav>
           </div>
           <div class="flex items-center gap-4">
             <div id="countdown-container" class="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
@@ -45,12 +47,45 @@
         </div>
       </main>
 
-      <!-- Founders Section -->
-      <section class="border-t border-white/10 bg-zinc-950 py-24 px-6">
-        <div class="max-w-7xl mx-auto">
-          <h2 class="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-12 font-mono text-center">Founders (First 100 Slots)</h2>
-          <div id="founders-grid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4">
-            <!-- Founders will be injected here -->
+      <!-- About Section -->
+      <section id="section-about" class="min-h-screen hidden pt-32 pb-24 px-6 bg-zinc-950">
+        <div class="max-w-3xl mx-auto space-y-12">
+          <h2 class="text-4xl md:text-6xl font-black tracking-tight">The internet is full of noise.</h2>
+          
+          <div class="space-y-6 text-lg md:text-xl text-white/70 leading-relaxed font-light">
+            <p>Millions of posts. Billions of clicks. Endless scrolling.</p>
+            <p>This page is different.</p>
+            <p>This is a shared digital space built on a simple idea:</p>
+            <p class="text-white font-bold">Own a piece of the internet — for just $1.</p>
+            <p>Each slot on this page represents a permanent place in internet history. Once purchased, it becomes yours. No subscriptions. No hidden fees. No tricks. Just one dollar for one spot.</p>
+          </div>
+
+          <div class="space-y-6 text-lg md:text-xl text-white/70 leading-relaxed font-light">
+            <h3 class="text-white font-bold text-2xl">Why?</h3>
+            <p>Because something fascinating happens when people come together around something simple.</p>
+            <p>The first 100 people secured their place for $1 and became Founders — permanently recognized on this page. As more spots are claimed, the value rises. Not because of hype. Not because of ads.</p>
+            <p class="text-white font-bold italic">Because scarcity is real.</p>
+            <p>There are only 10,000 total positions available.</p>
+            <p>When they are gone, they are gone.</p>
+          </div>
+
+          <div class="space-y-6 text-lg md:text-xl text-white/70 leading-relaxed font-light">
+            <p>This page is part experiment, part social phenomenon, and part digital time capsule. It captures a moment in internet culture where ownership, status, and timing intersect in the simplest possible way.</p>
+            <p>It is not about complexity.</p>
+            <p>It is about being early.</p>
+            <p>It is about being part of something from the beginning.</p>
+            <p>And it costs less than a cup of coffee.</p>
+          </div>
+
+          <div class="pt-12 border-t border-white/10">
+            <p class="text-2xl font-black italic">Welcome to the dollar internet page.</p>
+            <p class="text-white/40 uppercase tracking-widest text-sm mt-2 font-mono">Your slot. Your timing.</p>
+          </div>
+
+          <div class="pt-12">
+            <button id="btn-back-home" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-emerald-400 transition-all cursor-pointer">
+              Back to Billboard
+            </button>
           </div>
         </div>
       </section>
